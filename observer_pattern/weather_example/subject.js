@@ -28,7 +28,7 @@
 			// })			
 
 			this.observers.forEach( function ( thing ) {
-				console.log("hello")
+				console.log("\n")
 				thing.update( self.temperature, self.humidity, self.pressure )
 			});
 

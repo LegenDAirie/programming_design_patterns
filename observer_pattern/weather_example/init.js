@@ -2,9 +2,6 @@
 
 (function() {
 	var GLB = window.GLB = window.GLB || {}
-	GLB.canvas = document.getElementById("canvas")
-	GLB.canvas.setAttribute("width", 500)
-	GLB.canvas.setAttribute("height", 500)
 
 	GLB.weatherStation = GLB.WeatherStation.create()
 	console.log("( 1 ) get initialize Measures with no observers --" )

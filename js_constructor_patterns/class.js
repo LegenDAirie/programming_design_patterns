@@ -1,5 +1,5 @@
 // ecmaScript 6
-'use strict';
+'use strict'; //tells the console you are using es6
 
 class Task {
   constructor(name) {

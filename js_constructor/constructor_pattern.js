@@ -1,27 +1,27 @@
-function constructor(param1, param2){
-  this.param1 = param1;
-  this.param2 = param2;
-  this.toString = function(){
-    return this.param1 + " " + this.param2
-  }
-}
-
-var thing = new constructor('Hello', 'world');
-// console.log(thing.toString())
-////////////////////////////////////////////////////////////////////////
 
 var Task = function(name){
   this.name = name;
   this.completed = false;
 
-  this.complete = function(){
-    this.completed = true;
-    console.log('completed task: ' + this.name)
-  }
+  // this.complete = function(){
+  //   this.completed = true;
+  //   console.log('completed task: ' + this.name);
+  // }
+  //
+  // this.save = function(){
+  //   console.log('saving task: ' + this.name);
+  // }
+}
 
-  this.save = function(){
-    console.log('saving task: ' + this.name)
-  }
+// giving these instances access to these functions instad of giving them
+// there own for efficientcy
+Task.prototype.complete = function(){
+  this.completed = true;
+  console.log('completed task: ' + this.name);
+}
+
+Task.prototype.save = function(){
+  console.log('saving task: ' + this.name);
 }
 
 var task1 = new Task('create a demo for constructors')

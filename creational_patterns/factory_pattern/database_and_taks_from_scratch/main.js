@@ -1,9 +1,9 @@
-var Task = require('./task');
-var User = require('./User');
-var Project = require('./Project');
-var repoFactory = require('./factory');
+var objectFactory = require('./object_factory');
+var repoFactory = require('./repo_factory');
 
-var task1 = new Task({name: 'joe', id: 123});
-console.log(repoFactory.taskRepo.get(task1));
-repoFactory.taskRepo.save(task1);
-console.log(repoFactory.taskRepo.get(task1));
+
+var task = new objectFactory.Task({name: 'joe', id: 123});
+
+console.log(repoFactory.taskRepo.get(task));
+repoFactory.taskRepo.save(task);
+console.log(repoFactory.taskRepo.get(task));

@@ -1,4 +1,5 @@
 var repoFactory = function() {
+
   var repos = this;
   var repoList = [
     {name: 'taskRepo', source: './repos/task_repo' },
@@ -7,7 +8,10 @@ var repoFactory = function() {
   ];
 
   repoList.forEach(function(repo) {
-    repos[repo.name] = require(repo.source)();
+    //here we run the source right when we get it because we are only
+    //going to need one repo of each type, unlike objectFactory, we do
+    //not want to make multiple instances of each repo.
+    repos[repo.name] = require(repo.source)();// called right away
   });
 };
 

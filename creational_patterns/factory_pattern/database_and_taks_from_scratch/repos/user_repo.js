@@ -1,20 +1,21 @@
-var userRepo = function() {
+var repo = function() {
 
-  var database = {}
+  var database = {};
 
   var save = function(user) {
-    database[user.name] = user
-  }
+    database[user.id] = user;
+  };
 
   var get = function(user) {
-    return database[user.name]
-  }
-
+    if (database[user.id]) {
+      return database[user.id];
+    };
+  };
 
   return {
     save: save,
     get: get
-  }
-}
+  };
+};
 
-module.exports = userRepo
+module.exports = repo;

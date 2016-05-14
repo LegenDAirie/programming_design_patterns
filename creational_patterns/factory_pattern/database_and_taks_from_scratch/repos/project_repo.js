@@ -1,20 +1,21 @@
-var projectRepo = function() {
+var repo = function() {
 
-  var database = {}
+  var database = {};
 
   var save = function(project) {
-    database[project.name] = project
-  }
+    database[project.id] = project;
+  };
 
   var get = function(project) {
-    return database[project.name]
-  }
-
+    if (database[project.id]) {
+      return database[project.id];
+    };
+  };
 
   return {
     save: save,
     get: get
-  }
-}
+  };
+};
 
-module.exports = projectRepo
+module.exports = repo;

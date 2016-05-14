@@ -5,9 +5,9 @@ var repoFactory = function(){
 
     //creates an array of key and values(functions that will return a
     // repo object when ran )
-    var repoList = [{name:'task', source:'./taskRepository'},
-                   {name:'user', source:'./userRepository'},
-                   {name:'project', source:'./projectRepository'}];
+    var repoList = [{name:'task', source:'./repos/taskRepository'},
+                   {name:'user', source:'./repos/userRepository'},
+                   {name:'project', source:'./repos/projectRepository'}];
 
     repoList.forEach(function(repo){
         // adds keys and values(object repos) to "this"

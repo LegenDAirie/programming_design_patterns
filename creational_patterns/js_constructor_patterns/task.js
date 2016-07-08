@@ -1,5 +1,4 @@
-// ecmaScript 6
-'use strict';
+//just going back over stuff
 
 class Task {
   constructor(name) {
@@ -8,14 +7,15 @@ class Task {
   };
 
   complete() {
+    console.log('completeing task: ' + this.name);
     this.completed = true;
-    console.log('completed task: ' + this.name);
   };
 
   save() {
     console.log('saving task: ' + this.name);
   };
 }
+
 
 
 var task1 = new Task('create a demo for constructors')

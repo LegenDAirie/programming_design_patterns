@@ -32,6 +32,7 @@ task4.save();
 var Task = funtion() {
 
   var privateVariable = "you can't see me";
+  var database = [];
 
   return {
     showPrivateVariable: function() {

@@ -27,3 +27,21 @@ task1.complete();
 task2.save();
 task3.save();
 task4.save();
+
+
+var Task = funtion() {
+
+  var privateVariable = "you can't see me";
+
+  return {
+    showPrivateVariable: function() {
+      console.log(privateVariable);
+    },
+
+    complete: function() {
+
+    }
+  }
+};
+
+var Task = Task();

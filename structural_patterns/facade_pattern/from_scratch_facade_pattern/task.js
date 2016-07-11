@@ -25,6 +25,22 @@ var TaskService = function () {
     }
 }();
 
+var TaskServiceWrapper = function() {
+
+  var completeAndNotify = function(task) {
+    TaskService.complete(task);
+    if (task.completed == true) {
+      TaskService.setCompleteDate(task);
+      TaskService.notifyCompletion(task, task.user);
+      TaskService.save(task);
+    }
+  }
+
+  return {
+    completeAndNotify: completeAndNotify
+  }
+}();
+
 var myTask = new Task({
     name: 'MyTask',
     priority: 1,
@@ -33,13 +49,9 @@ var myTask = new Task({
     completed: false
 });
 
+TaskServiceWrapper.completeAndNotify(myTask);
+
 //console.log(myTask);
-TaskService.complete(myTask);
-if (myTask.completed == true) {
-    TaskService.setCompleteDate(myTask);
-    TaskService.notifyCompletion(myTask, myTask.user);
-    TaskService.save(myTask);
-}
 
 console.log(myTask);
 //

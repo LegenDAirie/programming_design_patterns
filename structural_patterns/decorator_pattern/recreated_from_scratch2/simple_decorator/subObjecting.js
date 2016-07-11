@@ -1,3 +1,5 @@
+// True inheritance
+
 var Task = function(name) {
   this.name = name;
   this.completed = false;
@@ -21,18 +23,17 @@ var UrgentTask = function(name, priority) {
   this.priority = priority;
 };
 
-
 UrgentTask.prototype = Object.create(Task.prototype);
+
 UrgentTask.prototype.notify = function() {
-  console.log('notifying important poeple');
+  console.log('notifying important people');
 };
 
 UrgentTask.prototype.save = function() {
   this.notify();
   Task.prototype.save.call(this);
 };
-var urgentTask = new UrgentTask('big task', 1);
-
-urgentTask.complete();
-urgentTask.save();
-console.log(urgentTask)
+var ut = new UrgentTask('first urgent task', 1);
+console.log(ut);
+ut.save();
+task.save();

@@ -2,95 +2,75 @@ var _ = require('../../../../utility/lodash');
 
 var Task = require('./task');
 
-var notificationService = function() {
-  var message = "Notifying ";
+var NotifyService = function() {
+  var message = 'notifying ';
+
   this.update = function(task) {
-    console.log(message + task.user + ' for task' + task.name);
+    console.log(message + task.user + ' about task: ' + task.name);
   };
 };
 
-var loggingService = function() {
-  var message = "Logging ";
+var LoggingService = function() {
+  var message = 'logging ';
+
   this.update = function(task) {
-    console.log(message + task.user + ' for task' + task.name);
+    console.log(message + task.user + ' about task: ' + task.name);
   };
 };
 
-var auditingService = function() {
-  var message = "Auditing ";
+var AuditingService = function() {
+  var message = 'auditing ';
+
   this.update = function(task) {
-    console.log(message + task.user + ' for task' + task.name);
+    console.log(message + task.user + ' about task: ' + task.name);
   };
 };
 
-function ObserverList() {
+// ObserverList
+var ObserverList = function() {
   this.observerList = [];
 };
 
-ObserverList.prototype.add = function(obj) {
-  return this.observerList.push(obj);
+ObserverList.prototype.addObserver = function(obj) {
+  this.observerList.push(obj);
 };
 
-ObserverList.prototype.get = function(index) {
-  if (index > -1 && index < this.observerList.length) {
-    return this.observerList[index];
-  }
-};
-
-ObserverList.prototype.count = function() {
-  return this.observerList.length;
-};
-
-ObserverList.prototype.removeObserver = function(observerToRemove) {
-  _.remove(this.observerList, function(observer) {
-    return observer === observerToRemove;
+ObserverList.prototype.notify = function(task) {
+  this.observerList.forEach(function(observer) {
+    observer.update(task);
   });
 };
 
-// observerList.prototype.indexOf = function(objext) {
-//
-// };
-
+// ObservableTask
 var ObservableTask = function(data) {
   Task.call(this, data);
   this.observers = new ObserverList();
 };
 
-ObservableTask.prototype.addObserver = function(observer) {
-  this.observers.add(observer);
-};
-
-ObservableTask.prototype.notify = function(context) {
-  var observerCount = this.observers.count();
-  for (var i = 0; i < observerCount; i++) {
-    this.observers.get(i)(context)
-  }
+ObservableTask.prototype.notify = function() {
+  console.log('notifying observers')
+  this.observers.notify(this);
 };
 
 ObservableTask.prototype.save = function() {
-  this.notify(this);
-
   Task.prototype.save.call(this);
-};
-
-ObservableTask.prototype.removeObserver = function(observer) {
-  this.observers.removeObserver(observer)
+  this.notify();
 };
 
 
 
-var task1 = new ObservableTask({name: 'create a demo for constructor', user: 'Someone'});
+var task = new ObservableTask({name:'feed the cat', user: 'steve'});
 
-var notification = new notificationService();
-var log = new loggingService();
-var audit = new auditingService();
+var not = new NotifyService();
+var log = new LoggingService();
+var aud = new AuditingService();
 
-task1.addObserver(notification.update);
-task1.addObserver(log.update);
-task1.addObserver(audit.update);
+task.observers.addObserver(not);
+task.observers.addObserver(log);
+task.observers.addObserver(aud);
 
-task1.save();
-console.log('/////////////////////////////////////////////////////////////////////')
-
-task1.removeObserver(audit.update);
-task1.save();
+task.save();
+//
+// not.update(task);
+// log.update(task);
+// aud.update(task);

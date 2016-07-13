@@ -21,42 +21,35 @@ var auditingService = function () {
     }
 };
 
-var Mediator = (function() {
+var mediator = (function() {
   var channels = {};
 
-  var subscribe = function(channel, context) {
+  var subscribe = function(channel, context, func) {
     if (!channels[channel]) {
       channels[channel] = [];
     }
 
-    channels[channel].push(context);
+    channels[channel].push({
+      context: context,
+      func: func
+    });
   };
 
   var publish = function(channel) {
-    if (channels[channel]) {
-      channels[channel].forEach(function(observer) {
-        observer.update(observer);
-      });
+    if (!channels[channel]) {
+      return false;
     }
-  };
 
-  var remove = function(channel, observerToRemove) {
-    if (channels[channel]) {
-      _.remove(channels[channel], function(observer) {
-        return observer === observerToRemove;
-      });
-    }
-  };
+    var args = Array.prototype.slice.call(arguments, 1);
 
-  var count = function() {
-    return channels.length;
+    channels[channel].forEach(function(subscriber) {
+      subscriber.func.apply(subscriber.context, args);
+    });
   };
 
   return {
     subscribe: subscribe,
-    publish: publish,
-    count: count,
-    remove: remove
+    publish: publish
   }
 })();
 
@@ -65,28 +58,17 @@ var task1 = new Task({
     user: 'Jon'
 });
 
-task1.save = function() {
-  Task.prototype.save.call(this);
-  Mediator.publish(this);
-};
-
 var not = new notificationService();
 var ls = new loggingService();
 var audit = new auditingService();
 
-// console.log(Mediator.count());
+mediator.subscribe('complete', not, not.update);
+mediator.subscribe('complete', ls, ls.update);
+mediator.subscribe('complete', audit, audit.update);
 
-task1.save();
-
-Mediator.subscribe(task1, not);
-Mediator.subscribe(task1, ls);
-Mediator.subscribe(task1, audit);
-
-task1.save();
-
-Mediator.remove(task1, ls);
-Mediator.remove(task1, audit);
-
-task1.save();
+task1.complete = function() {
+  mediator.publish('complete', this);
+  Task.prototype.complete.call(this);
+};
 
 task1.complete();
